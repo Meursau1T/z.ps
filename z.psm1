@@ -44,12 +44,13 @@ function MatchAll-Patterns {
 			$size = $matches[0].length
 			$teststring = $teststring.Substring($index + $size)
 			# Make sure you won't jump to child file when parent file's rank is lower
+			# But this means you can't jump to a folder by determine it's parents name
 			# eg.
 			# /usr/lib/abc  8
 			# /usr/lib     4
 			# z lib will jump to /usr/lib/abc not /usr/lib
-			if($teststring -imatch '\\'){
-				return $false
+			if(($teststring -imatch '\\') -and ($pattern -eq $patterns[-1])){
+				return $false	
 			}
 		}	else {
 			return $false
